@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>二次函数顶点式图像探索实验室</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,13 +11,14 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             background: linear-gradient(135deg, #1a2a6c, #2c3e50);
             color: #fff;
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
             overflow-x: hidden;
         }
         
@@ -28,248 +29,222 @@
         
         header {
             text-align: center;
-            padding: 20px 0;
-            margin-bottom: 25px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
+            margin-bottom: 10px;
         }
         
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
             background: linear-gradient(to right, #ff9966, #ff5e62);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.2;
         }
         
         .subtitle {
-            font-size: 1.4rem;
+            font-size: 1rem;
             color: #a0d2eb;
             max-width: 800px;
-            margin: 15px auto;
-            line-height: 1.6;
+            margin: 5px auto;
+            line-height: 1.4;
         }
         
         .formula-container {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px auto;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px auto;
             max-width: 800px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
         
         .formula {
-            font-size: 3rem;
+            font-size: 1.8rem;
             text-align: center;
             color: #ff9966;
             font-family: 'Cambria Math', serif;
-            margin: 10px 0;
+            margin: 5px 0;
         }
         
         .formula-explanation {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             color: #a0d2eb;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         
         .content {
             display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
         }
         
         .graph-container {
-            flex: 1 1 700px;
             background: rgba(25, 42, 86, 0.7);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
-            min-height: 600px;
+            min-height: 300px;
             position: relative;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         #function-plot {
-            width: 550px;
-            height: 550px;
+            width: 100%;
+            height: 300px;
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            border-radius: 8px;
             display: block;
         }
         
         .controls {
-            flex: 0 0 350px;
             background: rgba(25, 42, 86, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
         }
         
         .panel-title {
-            font-size: 1.6rem;
-            margin-bottom: 25px;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
             color: #ff9966;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .panel-title i {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
         
         .control-group {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .param-control {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .param-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+        
+        .param-name {
+            flex: 1;
         }
         
         .param-value {
             font-weight: bold;
             color: #ff9966;
             background: rgba(0,0,0,0.2);
-            padding: 2px 10px;
-            border-radius: 10px;
+            padding: 2px 8px;
+            border-radius: 8px;
+            min-width: 60px;
+            text-align: center;
         }
         
         .slider-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .slider-container i {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #ff9966;
-            min-width: 25px;
+            min-width: 20px;
         }
         
         input[type="range"] {
             flex: 1;
-            height: 10px;
+            height: 8px;
             -webkit-appearance: none;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+            border-radius: 4px;
             outline: none;
         }
         
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             background: #ff9966;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 153, 102, 0.7);
+            box-shadow: 0 0 8px rgba(255, 153, 102, 0.7);
+        }
+        
+        .param-info {
+            font-size: 0.85rem;
+            color: #e0e0ff;
+            margin-top: 5px;
+            line-height: 1.4;
         }
         
         .presets {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 10px;
         }
         
         .preset-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: #fff;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
             text-align: center;
         }
         
         .preset-btn:hover {
             background: rgba(255, 153, 102, 0.3);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .vertex-display {
             background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-family: monospace;
-            font-size: 1.2rem;
-            line-height: 1.8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
             color: #a0d2eb;
             text-align: center;
-        }
-        
-        .key-points {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .point-card {
-            background: rgba(25, 42, 86, 0.7);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .point-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        .point-card h3 {
-            color: #ff9966;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .point-card p {
-            line-height: 1.7;
-            color: #e0e0ff;
         }
         
         .legend {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-top: 20px;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            gap: 6px;
+            font-size: 0.8rem;
         }
         
         .legend-color {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
         }
         
@@ -280,104 +255,119 @@
         .instructions {
             background: rgba(25, 42, 86, 0.7);
             border-radius: 10px;
-            padding: 20px;
-            margin: 30px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         
         .instructions h3 {
             color: #ff9966;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .instructions ul {
-            padding-left: 25px;
-            margin-top: 10px;
+            padding-left: 20px;
+            margin-top: 8px;
         }
         
         .instructions li {
-            margin-bottom: 8px;
-            line-height: 1.6;
+            margin-bottom: 6px;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
         
         .conversion {
             background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 15px 0;
             font-family: 'Cambria Math', serif;
         }
         
         .conversion h3 {
             color: #ff9966;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
             text-align: center;
         }
         
         .conversion-formula {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: center;
             color: #a0d2eb;
-            margin: 10px 0;
+            margin: 8px 0;
         }
         
         .conversion-steps {
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 10px;
+            padding: 10px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
+            font-size: 0.9rem;
         }
         
         .conversion-steps div {
-            margin: 10px 0;
-            line-height: 1.6;
+            margin: 8px 0;
+            line-height: 1.5;
         }
         
         footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
+            margin-top: 20px;
+            padding: 15px;
             color: #a0d2eb;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         
-        @media (max-width: 1100px) {
+        /* 平板和桌面样式 */
+        @media (min-width: 768px) {
             .content {
-                flex-direction: column;
-            }
-            
-            .controls {
-                flex: 0 0 auto;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .presets {
-                grid-template-columns: 1fr;
-            }
-            
-            .formula {
-                font-size: 2.2rem;
+                flex-direction: row;
+                gap: 20px;
             }
             
             .graph-container {
-                padding: 10px;
+                flex: 1;
+                min-height: 450px;
             }
             
             #function-plot {
-                width: 100%;
                 height: 400px;
+            }
+            
+            .controls {
+                flex: 0 0 350px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .formula {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* 大屏设备 */
+        @media (min-width: 1024px) {
+            #function-plot {
+                height: 500px;
+            }
+            
+            .graph-container {
+                min-height: 520px;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
             }
         }
     </style>
@@ -400,51 +390,51 @@
             </div>
             
             <div class="controls">
-                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> 参数控制面板</h2>
+                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> 参数控制</h2>
                 
                 <div class="control-group">
                     <div class="param-control">
                         <div class="param-label">
-                            <span><i class="fas fa-arrows-alt-v"></i> a 值（开口方向和大小）</span>
-                            <span class="param-value" id="a-value">1.0</span>
+                            <div class="param-name"><i class="fas fa-arrows-alt-v"></i> a 值</div>
+                            <div class="param-value" id="a-value">1.0</div>
                         </div>
                         <div class="slider-container">
                             <i class="fas fa-compress-alt"></i>
                             <input type="range" id="a-slider" min="-5" max="5" step="0.1" value="1">
                             <i class="fas fa-expand-alt"></i>
                         </div>
-                        <p>a > 0 → 开口向上 | a < 0 → 开口向下<br>|a|增大 → 开口变窄 | |a|减小 → 开口变宽</p>
+                        <div class="param-info">控制开口方向和大小<br>a>0: 开口向上 | a<0: 开口向下<br>|a|越大开口越窄</div>
                     </div>
                     
                     <div class="param-control">
                         <div class="param-label">
-                            <span><i class="fas fa-arrows-alt-h"></i> h 值（顶点x坐标）</span>
-                            <span class="param-value" id="h-value">0.0</span>
+                            <div class="param-name"><i class="fas fa-arrows-alt-h"></i> h 值</div>
+                            <div class="param-value" id="h-value">0.0</div>
                         </div>
                         <div class="slider-container">
                             <i class="fas fa-arrow-left"></i>
                             <input type="range" id="h-slider" min="-10" max="10" step="0.1" value="0">
                             <i class="fas fa-arrow-right"></i>
                         </div>
-                        <p>控制顶点在x轴上的位置<br>h > 0 → 顶点在y轴右侧 | h < 0 → 顶点在y轴左侧</p>
+                        <div class="param-info">控制顶点x坐标<br>h>0: 顶点在y轴右侧<br>h<0: 顶点在y轴左侧</div>
                     </div>
                     
                     <div class="param-control">
                         <div class="param-label">
-                            <span><i class="fas fa-arrow-up"></i> k 值（顶点y坐标）</span>
-                            <span class="param-value" id="k-value">0.0</span>
+                            <div class="param-name"><i class="fas fa-arrow-up"></i> k 值</div>
+                            <div class="param-value" id="k-value">0.0</div>
                         </div>
                         <div class="slider-container">
                             <i class="fas fa-arrow-down"></i>
                             <input type="range" id="k-slider" min="-10" max="10" step="0.1" value="0">
                             <i class="fas fa-arrow-up"></i>
                         </div>
-                        <p>控制顶点在y轴上的位置<br>k > 0 → 顶点在x轴上方 | k < 0 → 顶点在x轴下方</p>
+                        <div class="param-info">控制顶点y坐标<br>k>0: 顶点在x轴上方<br>k<0: 顶点在x轴下方</div>
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <h3><i class="fas fa-lightbulb"></i> 预设案例</h3>
+                    <h3 class="panel-title"><i class="fas fa-lightbulb"></i> 预设案例</h3>
                     <div class="presets">
                         <button class="preset-btn" data-a="1" data-h="0" data-k="0">标准位置</button>
                         <button class="preset-btn" data-a="1" data-h="3" data-k="2">右上平移</button>
@@ -456,10 +446,10 @@
                 </div>
                 
                 <div class="control-group">
-                    <h3><i class="fas fa-map-marker-alt"></i> 顶点坐标</h3>
+                    <h3 class="panel-title"><i class="fas fa-map-marker-alt"></i> 顶点坐标</h3>
                     <div class="vertex-display">
                         <div id="vertex-result">(h, k) = (0.00, 0.00)</div>
-                        <div class="formula" style="font-size: 1.8rem; margin: 15px 0;">y = a(x - h)² + k</div>
+                        <div class="formula" style="font-size: 1.5rem; margin: 10px 0;">y = a(x - h)² + k</div>
                         <div id="current-function">当前函数: y = 1.00(x - 0.00)² + 0.00</div>
                     </div>
                 </div>
@@ -471,11 +461,11 @@
                     </div>
                     <div class="legend-item">
                         <div class="legend-color vertex-color"></div>
-                        <span>顶点 (h, k)</span>
+                        <span>顶点</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color axis-color"></div>
-                        <span>对称轴 x = h</span>
+                        <span>对称轴</span>
                     </div>
                 </div>
             </div>
@@ -505,59 +495,8 @@
             <div class="conversion-steps">
                 <div>转换公式：</div>
                 <div>h = -b/(2a)</div>
-                <div>k = (4ac - b²)/(4a) 或 k = c - b²/(4a)</div>
+                <div>k = (4ac - b²)/(4a)</div>
                 <div>顶点坐标：(h, k) = (-b/(2a), (4ac - b²)/(4a))</div>
-            </div>
-            
-            <div class="conversion-steps">
-                <div><strong>推导过程：</strong></div>
-                <div>1. 通过配方法将一般式转化为顶点式：</div>
-                <div>y = ax² + bx + c</div>
-                <div>y = a(x² + (b/a)x) + c</div>
-                <div>y = a(x² + (b/a)x + (b/(2a))² - (b/(2a))²) + c</div>
-                <div>y = a[(x + b/(2a))² - (b/(2a))²] + c</div>
-                <div>y = a(x + b/(2a))² - b²/(4a) + c</div>
-                <div>y = a(x + b/(2a))² + (4ac - b²)/(4a)</div>
-                <div>2. 因此 h = -b/(2a), k = (4ac - b²)/(4a) 或 k = c - b²/(4a)</div>
-            </div>
-        </div>
-        
-        <div class="key-points">
-            <div class="point-card">
-                <h3><i class="fas fa-crown"></i> 顶点位置 (h, k)</h3>
-                <p>顶点是二次函数的最高点或最低点。在顶点式 y=a(x-h)²+k 中，顶点坐标直接由参数h和k决定：</p>
-                <ul style="padding-left: 20px; margin-top: 10px;">
-                    <li>h：控制顶点在x轴上的位置</li>
-                    <li>k：控制顶点在y轴上的位置</li>
-                    <li>当a>0时，顶点是最低点（最小值）</li>
-                    <li>当a<0时，顶点是最高点（最大值）</li>
-                </ul>
-            </div>
-            
-            <div class="point-card">
-                <h3><i class="fas fa-arrows-alt-v"></i> 开口方向与大小</h3>
-                <p>参数a决定开口方向：</p>
-                <ul style="padding-left: 20px; margin-top: 10px;">
-                    <li>a>0：开口向上</li>
-                    <li>a<0：开口向下</li>
-                </ul>
-                <p style="margin-top: 10px;">参数a也决定开口大小：</p>
-                <ul style="padding-left: 20px;">
-                    <li>|a|越大，开口越窄</li>
-                    <li>|a|越小，开口越宽</li>
-                    <li>当|a|=1时，为标准开口宽度</li>
-                </ul>
-            </div>
-            
-            <div class="point-card">
-                <h3><i class="fas fa-expand-alt"></i> 对称轴</h3>
-                <p>二次函数的图像关于对称轴对称：</p>
-                <ul style="padding-left: 20px; margin-top: 10px;">
-                    <li>对称轴是垂直于x轴的直线</li>
-                    <li>在顶点式中，对称轴为 x = h</li>
-                    <li>顶点总是位于对称轴上</li>
-                    <li>对称轴将抛物线分为两个完全对称的部分</li>
-                </ul>
             </div>
         </div>
         
@@ -588,9 +527,11 @@
         // 设置Canvas尺寸（保持1:1比例）
         function setupCanvas() {
             const container = canvas.parentElement;
-            const size = Math.min(container.clientWidth, container.clientHeight) - 40;
-            canvas.width = size;
-            canvas.height = size;
+            const size = Math.min(container.clientWidth, 500);
+            canvas.width = size * 2; // 使用2倍分辨率提高清晰度
+            canvas.height = size * 2;
+            canvas.style.width = size + 'px';
+            canvas.style.height = size + 'px';
         }
         
         // 更新参数显示
@@ -662,24 +603,24 @@
             
             // 添加坐标标签
             ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.font = '12px Arial';
+            ctx.font = '14px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             
             // x轴标签
             for (let x = -10; x <= 10; x += 2) {
                 if (x === 0) continue;
-                ctx.fillText(x, centerX + x * scale, centerY + 15);
+                ctx.fillText(x, centerX + x * scale, centerY + 20);
             }
             
             // y轴标签
             for (let y = -10; y <= 10; y += 2) {
                 if (y === 0) continue;
-                ctx.fillText(y, centerX - 15, centerY - y * scale);
+                ctx.fillText(y, centerX - 20, centerY - y * scale);
             }
             
             // 原点
-            ctx.fillText('0', centerX - 15, centerY + 15);
+            ctx.fillText('0', centerX - 20, centerY + 20);
             
             // 绘制函数曲线
             ctx.beginPath();
@@ -724,20 +665,20 @@
             const vertexX = centerX + h * scale;
             const vertexY = centerY - k * scale;
             ctx.beginPath();
-            ctx.arc(vertexX, vertexY, 8, 0, Math.PI * 2);
+            ctx.arc(vertexX, vertexY, 10, 0, Math.PI * 2);
             ctx.fill();
             
             // 绘制顶点标签
             ctx.fillStyle = '#FFD700';
-            ctx.font = 'bold 16px Arial';
+            ctx.font = 'bold 18px Arial';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'bottom';
-            ctx.fillText(`(${h.toFixed(1)}, ${k.toFixed(1)})`, vertexX + 10, vertexY - 10);
+            ctx.fillText(`(${h.toFixed(1)}, ${k.toFixed(1)})`, vertexX + 12, vertexY - 10);
             
             // 添加比例说明
             ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.font = '12px Arial';
-            ctx.fillText('坐标比例1:1', 20, 20);
+            ctx.font = '14px Arial';
+            ctx.fillText('坐标比例1:1', 20, 30);
         }
         
         // 更新所有显示
