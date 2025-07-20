@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二次函数顶点式图像探索实验室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #a0d2eb;
+            max-width: 800px;
+            margin: 15px auto;
+            line-height: 1.6;
+        }
+        
+        .formula-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .formula {
+            font-size: 3rem;
+            text-align: center;
+            color: #ff9966;
+            font-family: 'Cambria Math', serif;
+            margin: 10px 0;
+        }
+        
+        .formula-explanation {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #a0d2eb;
+            margin-top: 10px;
+        }
+        
+        .content {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .graph-container {
+            flex: 1 1 700px;
+            background: rgba(25, 42, 86, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            min-height: 600px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #function-plot {
+            width: 550px;
+            height: 550px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: block;
+        }
+        
+        .controls {
+            flex: 0 0 350px;
+            background: rgba(25, 42, 86, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+        
+        .panel-title {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: #ff9966;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .panel-title i {
+            font-size: 1.8rem;
+        }
+        
+        .control-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .param-control {
+            margin-bottom: 20px;
+        }
+        
+        .param-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .param-value {
+            font-weight: bold;
+            color: #ff9966;
+            background: rgba(0,0,0,0.2);
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-container i {
+            font-size: 1.4rem;
+            color: #ff9966;
+            min-width: 25px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 10px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ff9966;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 153, 102, 0.7);
+        }
+        
+        .presets {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .preset-btn:hover {
+            background: rgba(255, 153, 102, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .vertex-display {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #a0d2eb;
+            text-align: center;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .point-card {
+            background: rgba(25, 42, 86, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .point-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .point-card h3 {
+            color: #ff9966;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .point-card p {
+            line-height: 1.7;
+            color: #e0e0ff;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .vertex-color { background: #FFD700; }
+        .axis-color { background: #00FF7F; }
+        .curve-color { background: #ff9966; }
+        
+        .instructions {
+            background: rgba(25, 42, 86, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .instructions h3 {
+            color: #ff9966;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 25px;
+            margin-top: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .conversion {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Cambria Math', serif;
+        }
+        
+        .conversion h3 {
+            color: #ff9966;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .conversion-formula {
+            font-size: 1.5rem;
+            text-align: center;
+            color: #a0d2eb;
+            margin: 10px 0;
+        }
+        
+        .conversion-steps {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .conversion-steps div {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #a0d2eb;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1100px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex: 0 0 auto;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .presets {
+                grid-template-columns: 1fr;
+            }
+            
+            .formula {
+                font-size: 2.2rem;
+            }
+            
+            .graph-container {
+                padding: 10px;
+            }
+            
+            #function-plot {
+                width: 100%;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> 二次函数顶点式图像探索实验室</h1>
+            <p class="subtitle">通过顶点式 y=a(x-h)²+k 直观理解二次函数的顶点位置、开口大小和方向</p>
+            
+            <div class="formula-container">
+                <div class="formula">y = a(x - h)² + k</div>
+                <div class="formula-explanation">其中 (h, k) 为函数顶点坐标 | a 控制开口方向和大小</div>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="graph-container">
+                <canvas id="function-plot"></canvas>
+            </div>
+            
+            <div class="controls">
+                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> 参数控制面板</h2>
+                
+                <div class="control-group">
+                    <div class="param-control">
+                        <div class="param-label">
+                            <span><i class="fas fa-arrows-alt-v"></i> a 值（开口方向和大小）</span>
+                            <span class="param-value" id="a-value">1.0</span>
+                        </div>
+                        <div class="slider-container">
+                            <i class="fas fa-compress-alt"></i>
+                            <input type="range" id="a-slider" min="-5" max="5" step="0.1" value="1">
+                            <i class="fas fa-expand-alt"></i>
+                        </div>
+                        <p>a > 0 → 开口向上 | a < 0 → 开口向下<br>|a|增大 → 开口变窄 | |a|减小 → 开口变宽</p>
+                    </div>
+                    
+                    <div class="param-control">
+                        <div class="param-label">
+                            <span><i class="fas fa-arrows-alt-h"></i> h 值（顶点x坐标）</span>
+                            <span class="param-value" id="h-value">0.0</span>
+                        </div>
+                        <div class="slider-container">
+                            <i class="fas fa-arrow-left"></i>
+                            <input type="range" id="h-slider" min="-10" max="10" step="0.1" value="0">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <p>控制顶点在x轴上的位置<br>h > 0 → 顶点在y轴右侧 | h < 0 → 顶点在y轴左侧</p>
+                    </div>
+                    
+                    <div class="param-control">
+                        <div class="param-label">
+                            <span><i class="fas fa-arrow-up"></i> k 值（顶点y坐标）</span>
+                            <span class="param-value" id="k-value">0.0</span>
+                        </div>
+                        <div class="slider-container">
+                            <i class="fas fa-arrow-down"></i>
+                            <input type="range" id="k-slider" min="-10" max="10" step="0.1" value="0">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <p>控制顶点在y轴上的位置<br>k > 0 → 顶点在x轴上方 | k < 0 → 顶点在x轴下方</p>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-lightbulb"></i> 预设案例</h3>
+                    <div class="presets">
+                        <button class="preset-btn" data-a="1" data-h="0" data-k="0">标准位置</button>
+                        <button class="preset-btn" data-a="1" data-h="3" data-k="2">右上平移</button>
+                        <button class="preset-btn" data-a="-2" data-h="-2" data-k="3">左上开口向下</button>
+                        <button class="preset-btn" data-a="0.5" data-h="0" data-k="-4">宽开口向下</button>
+                        <button class="preset-btn" data-a="-1" data-h="4" data-k="-3">右下开口向下</button>
+                        <button class="preset-btn" data-a="3" data-h="-3" data-k="-2">窄开口向上</button>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-map-marker-alt"></i> 顶点坐标</h3>
+                    <div class="vertex-display">
+                        <div id="vertex-result">(h, k) = (0.00, 0.00)</div>
+                        <div class="formula" style="font-size: 1.8rem; margin: 15px 0;">y = a(x - h)² + k</div>
+                        <div id="current-function">当前函数: y = 1.00(x - 0.00)² + 0.00</div>
+                    </div>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color curve-color"></div>
+                        <span>函数曲线</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color vertex-color"></div>
+                        <span>顶点 (h, k)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color axis-color"></div>
+                        <span>对称轴 x = h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-graduation-cap"></i> 教学指导</h3>
+            <p>通过此交互工具，学生可以直观理解二次函数顶点式的几何意义：</p>
+            <ul>
+                <li>参数 <strong>a</strong> 决定抛物线的开口方向和大小（|a|越大开口越窄）</li>
+                <li>参数 <strong>h</strong> 决定顶点的水平位置（x坐标）</li>
+                <li>参数 <strong>k</strong> 决定顶点的垂直位置（y坐标）</li>
+                <li>对称轴始终为垂直线 <strong>x = h</strong></li>
+                <li>顶点坐标直接由 <strong>(h, k)</strong> 给出</li>
+            </ul>
+        </div>
+        
+        <div class="conversion">
+            <h3><i class="fas fa-exchange-alt"></i> 顶点式与一般式的转换</h3>
+            <div class="conversion-formula">
+                一般式：y = ax² + bx + c
+            </div>
+            <div class="conversion-formula">
+                顶点式：y = a(x - h)² + k
+            </div>
+            
+            <div class="conversion-steps">
+                <div>转换公式：</div>
+                <div>h = -b/(2a)</div>
+                <div>k = (4ac - b²)/(4a) 或 k = c - b²/(4a)</div>
+                <div>顶点坐标：(h, k) = (-b/(2a), (4ac - b²)/(4a))</div>
+            </div>
+            
+            <div class="conversion-steps">
+                <div><strong>推导过程：</strong></div>
+                <div>1. 通过配方法将一般式转化为顶点式：</div>
+                <div>y = ax² + bx + c</div>
+                <div>y = a(x² + (b/a)x) + c</div>
+                <div>y = a(x² + (b/a)x + (b/(2a))² - (b/(2a))²) + c</div>
+                <div>y = a[(x + b/(2a))² - (b/(2a))²] + c</div>
+                <div>y = a(x + b/(2a))² - b²/(4a) + c</div>
+                <div>y = a(x + b/(2a))² + (4ac - b²)/(4a)</div>
+                <div>2. 因此 h = -b/(2a), k = (4ac - b²)/(4a) 或 k = c - b²/(4a)</div>
+            </div>
+        </div>
+        
+        <div class="key-points">
+            <div class="point-card">
+                <h3><i class="fas fa-crown"></i> 顶点位置 (h, k)</h3>
+                <p>顶点是二次函数的最高点或最低点。在顶点式 y=a(x-h)²+k 中，顶点坐标直接由参数h和k决定：</p>
+                <ul style="padding-left: 20px; margin-top: 10px;">
+                    <li>h：控制顶点在x轴上的位置</li>
+                    <li>k：控制顶点在y轴上的位置</li>
+                    <li>当a>0时，顶点是最低点（最小值）</li>
+                    <li>当a<0时，顶点是最高点（最大值）</li>
+                </ul>
+            </div>
+            
+            <div class="point-card">
+                <h3><i class="fas fa-arrows-alt-v"></i> 开口方向与大小</h3>
+                <p>参数a决定开口方向：</p>
+                <ul style="padding-left: 20px; margin-top: 10px;">
+                    <li>a>0：开口向上</li>
+                    <li>a<0：开口向下</li>
+                </ul>
+                <p style="margin-top: 10px;">参数a也决定开口大小：</p>
+                <ul style="padding-left: 20px;">
+                    <li>|a|越大，开口越窄</li>
+                    <li>|a|越小，开口越宽</li>
+                    <li>当|a|=1时，为标准开口宽度</li>
+                </ul>
+            </div>
+            
+            <div class="point-card">
+                <h3><i class="fas fa-expand-alt"></i> 对称轴</h3>
+                <p>二次函数的图像关于对称轴对称：</p>
+                <ul style="padding-left: 20px; margin-top: 10px;">
+                    <li>对称轴是垂直于x轴的直线</li>
+                    <li>在顶点式中，对称轴为 x = h</li>
+                    <li>顶点总是位于对称轴上</li>
+                    <li>对称轴将抛物线分为两个完全对称的部分</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>二次函数顶点式图像探索实验室 | 设计：初三数学教学组 | 顶点式直观理解顶点位置</p>
+        </footer>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const aSlider = document.getElementById('a-slider');
+        const hSlider = document.getElementById('h-slider');
+        const kSlider = document.getElementById('k-slider');
+        const aValue = document.getElementById('a-value');
+        const hValue = document.getElementById('h-value');
+        const kValue = document.getElementById('k-value');
+        const vertexResult = document.getElementById('vertex-result');
+        const currentFunction = document.getElementById('current-function');
+        const presetButtons = document.querySelectorAll('.preset-btn');
+        const canvas = document.getElementById('function-plot');
+        const ctx = canvas.getContext('2d');
+        
+        // 初始化参数
+        let a = 1;
+        let h = 0;
+        let k = 0;
+        
+        // 设置Canvas尺寸（保持1:1比例）
+        function setupCanvas() {
+            const container = canvas.parentElement;
+            const size = Math.min(container.clientWidth, container.clientHeight) - 40;
+            canvas.width = size;
+            canvas.height = size;
+        }
+        
+        // 更新参数显示
+        function updateParamDisplays() {
+            aValue.textContent = a.toFixed(1);
+            hValue.textContent = h.toFixed(1);
+            kValue.textContent = k.toFixed(1);
+            
+            // 更新顶点显示
+            vertexResult.textContent = `(h, k) = (${h.toFixed(2)}, ${k.toFixed(2)})`;
+            
+            // 更新函数显示
+            const sign = k >= 0 ? '+' : '-';
+            currentFunction.textContent = `当前函数: y = ${a.toFixed(2)}(x ${h >= 0 ? '-' : '+'} ${Math.abs(h).toFixed(2)})² ${sign} ${Math.abs(k).toFixed(2)}`;
+        }
+        
+        // 计算二次函数值（顶点式）
+        function quadratic(x) {
+            return a * Math.pow(x - h, 2) + k;
+        }
+        
+        // 绘制函数图像（保持1:1比例）
+        function drawFunction() {
+            // 清除画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 设置坐标系 (x: -10 到 10, y: -10 到 10)
+            const scale = canvas.width / 20; // 比例因子（20个单位宽）
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // 绘制网格
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // 垂直线
+            for (let x = -10; x <= 10; x++) {
+                if (x === 0) continue;
+                ctx.beginPath();
+                ctx.moveTo(centerX + x * scale, 0);
+                ctx.lineTo(centerX + x * scale, canvas.height);
+                ctx.stroke();
+            }
+            
+            // 水平线
+            for (let y = -10; y <= 10; y++) {
+                if (y === 0) continue;
+                ctx.beginPath();
+                ctx.moveTo(0, centerY - y * scale);
+                ctx.lineTo(canvas.width, centerY - y * scale);
+                ctx.stroke();
+            }
+            
+            // 绘制坐标轴
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.lineWidth = 2;
+            
+            // x轴
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.stroke();
+            
+            // y轴
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.stroke();
+            
+            // 添加坐标标签
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // x轴标签
+            for (let x = -10; x <= 10; x += 2) {
+                if (x === 0) continue;
+                ctx.fillText(x, centerX + x * scale, centerY + 15);
+            }
+            
+            // y轴标签
+            for (let y = -10; y <= 10; y += 2) {
+                if (y === 0) continue;
+                ctx.fillText(y, centerX - 15, centerY - y * scale);
+            }
+            
+            // 原点
+            ctx.fillText('0', centerX - 15, centerY + 15);
+            
+            // 绘制函数曲线
+            ctx.beginPath();
+            ctx.strokeStyle = '#ff9966';
+            ctx.lineWidth = 4;
+            ctx.lineJoin = 'round';
+            
+            // 绘制曲线
+            for (let x = -10; x <= 10; x += 0.05) {
+                const y = quadratic(x);
+                
+                // 如果y值超出范围，则不绘制
+                if (y < -10 || y > 10) continue;
+                
+                const plotX = centerX + x * scale;
+                const plotY = centerY - y * scale;
+                
+                if (x === -10) {
+                    ctx.moveTo(plotX, plotY);
+                } else {
+                    ctx.lineTo(plotX, plotY);
+                }
+            }
+            
+            ctx.stroke();
+            
+            // 绘制对称轴 (x = h)
+            ctx.strokeStyle = '#00FF7F';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            
+            ctx.beginPath();
+            const axisX = centerX + h * scale;
+            ctx.moveTo(axisX, 0);
+            ctx.lineTo(axisX, canvas.height);
+            ctx.stroke();
+            
+            ctx.setLineDash([]);
+            
+            // 绘制顶点 (h, k)
+            ctx.fillStyle = '#FFD700';
+            const vertexX = centerX + h * scale;
+            const vertexY = centerY - k * scale;
+            ctx.beginPath();
+            ctx.arc(vertexX, vertexY, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 绘制顶点标签
+            ctx.fillStyle = '#FFD700';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(`(${h.toFixed(1)}, ${k.toFixed(1)})`, vertexX + 10, vertexY - 10);
+            
+            // 添加比例说明
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.font = '12px Arial';
+            ctx.fillText('坐标比例1:1', 20, 20);
+        }
+        
+        // 更新所有显示
+        function updateAll() {
+            updateParamDisplays();
+            drawFunction();
+        }
+        
+        // 事件监听器
+        aSlider.addEventListener('input', function() {
+            a = parseFloat(this.value);
+            updateAll();
+        });
+        
+        hSlider.addEventListener('input', function() {
+            h = parseFloat(this.value);
+            updateAll();
+        });
+        
+        kSlider.addEventListener('input', function() {
+            k = parseFloat(this.value);
+            updateAll();
+        });
+        
+        // 预设按钮事件
+        presetButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                a = parseFloat(this.dataset.a);
+                h = parseFloat(this.dataset.h);
+                k = parseFloat(this.dataset.k);
+                
+                aSlider.value = a;
+                hSlider.value = h;
+                kSlider.value = k;
+                
+                updateAll();
+            });
+        });
+        
+        // 初始化
+        window.addEventListener('load', function() {
+            setupCanvas();
+            updateAll();
+        });
+        
+        // 响应窗口大小变化
+        window.addEventListener('resize', function() {
+            setupCanvas();
+            updateAll();
+        });
+    </script>
+</body>
+</html>
