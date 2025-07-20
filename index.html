@@ -377,21 +377,17 @@
         <header>
             <h1><i class="fas fa-chart-line"></i> 二次函数顶点式图像探索实验室</h1>
             <p class="subtitle">通过顶点式 y=a(x-h)²+k 直观理解二次函数的顶点位置、开口大小和方向</p>
-            
             <div class="formula-container">
                 <div class="formula">y = a(x - h)² + k</div>
                 <div class="formula-explanation">其中 (h, k) 为顶点坐标 | a 控制开口方向和大小</div>
             </div>
         </header>
-        
         <div class="content">
             <div class="graph-container">
                 <canvas id="function-plot"></canvas>
             </div>
             
             <div class="controls">
-                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> 参数控制</h2>
-                
                 <div class="control-group">
                     <div class="param-control">
                         <div class="param-label">
@@ -404,7 +400,6 @@
                             <i class="fas fa-expand-alt"></i>
                         </div>
                     </div>
-                    
                     <div class="param-control">
                         <div class="param-label">
                             <div class="param-name"><i class="fas fa-arrows-alt-h"></i> h 值</div>
@@ -416,7 +411,6 @@
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
-                    
                     <div class="param-control">
                         <div class="param-label">
                             <div class="param-name"><i class="fas fa-arrow-up"></i> k 值</div>
@@ -427,9 +421,9 @@
                             <input type="range" id="k-slider" min="-10" max="10" step="0.1" value="0">
                             <i class="fas fa-arrow-up"></i>
                         </div>
-                        <div class="param-info">控制开口方向和大小<br>a>0: 开口向上 | a<0: 开口向下<br>|a|越大开口越窄</div>
-                        <div class="param-info">控制顶点x坐标<br>h>0: 顶点在y轴右侧<br>h<0: 顶点在y轴左侧</div>
-                        <div class="param-info">控制顶点y坐标<br>k>0: 顶点在x轴上方<br>k<0: 顶点在x轴下方</div>
+                        <div class="param-info">a控制开口方向和大小<br>a>0: 开口向上 | a<0: 开口向下<br>|a|越大开口越窄</div>
+                        <div class="param-info">h控制顶点x坐标<br>h>0: 顶点在y轴右侧<br>h<0: 顶点在y轴左侧</div>
+                        <div class="param-info">k控制顶点y坐标<br>k>0: 顶点在x轴上方<br>k<0: 顶点在x轴下方</div>
                     </div>
                 </div>
                 
@@ -439,7 +433,7 @@
                         <button class="preset-btn" data-a="1" data-h="0" data-k="0">标准位置</button>
                         <button class="preset-btn" data-a="1" data-h="3" data-k="2">右上平移</button>
                         <button class="preset-btn" data-a="-2" data-h="-2" data-k="3">左上开口向下</button>
-                        <button class="preset-btn" data-a="0.5" data-h="0" data-k="-4">宽开口向下</button>
+                        <button class="preset-btn" data-a="-0.5" data-h="0" data-k="-4">宽开口向下</button>
                         <button class="preset-btn" data-a="-1" data-h="4" data-k="-3">右下开口向下</button>
                         <button class="preset-btn" data-a="3" data-h="-3" data-k="-2">窄开口向上</button>
                     </div>
